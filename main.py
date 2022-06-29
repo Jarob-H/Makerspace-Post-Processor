@@ -38,6 +38,7 @@ class postProc:
 
 class ui():
     def __init__(self,proc):
+        self.proc=proc
 
         self.window = Tk()
         self.window.attributes('-fullscreen', True)
@@ -68,12 +69,9 @@ class ui():
 
         img.place(relx = 0.5, rely = 0.5,anchor=CENTER)
 
-
         self.window.protocol("WM_DELETE_WINDOW", self.on_closing)
-        self.checkTime(proc)
+
         self.window.mainloop()
-
-
 
     def on_closing(self):#iff the user exits I want to send -1 code so the gcode is cancled
         sys.exit(-1)
@@ -89,6 +87,7 @@ class ui():
             self.window.destroy()
             sys.exit(-1)
         else:
+            self.checkTime(self.proc)
             print("works")
 
     def checkTime(self,proc):
@@ -97,18 +96,19 @@ class ui():
         if datetime.datetime.now().weekday():#checks if it is a weekday
             if time > 3:#check to see if it after 5pm
                 if proc.printTime > 500: #checks if the print is under 12hours
-                    print("error")
-                    self.open_popup()
+                    self.open_popup("Print time  exceeds allowed time requirement")
             else:
                 if proc.printTime > 500: #checks if the print is under 12hours
                     print("error")
 
-    def open_popup(self):
+    def open_popup(self,msg):
         top = Toplevel(self.window)
         top.focus_force()
-        top.geometry("750x250")
-        top.title("Child Window")
-        Label(top, text="Hello World!", font=('Mistral 18 bold')).place(x=150, y=80)
+        top.geometry("900x250")
+        top.configure(bg="#330000")
+        top.title("Override")
+        Label(top, text="Your Print falls outside of normal parameters. " + msg).place(x=150, y=80)
+
 
 
 def main():
