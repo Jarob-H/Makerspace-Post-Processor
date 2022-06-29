@@ -68,14 +68,15 @@ class ui():
 
         img.place(relx = 0.5, rely = 0.5,anchor=CENTER)
 
-        self.checkTime(proc)
+
         self.window.protocol("WM_DELETE_WINDOW", self.on_closing)
+        self.checkTime(proc)
         self.window.mainloop()
+
 
 
     def on_closing(self):#iff the user exits I want to send -1 code so the gcode is cancled
         sys.exit(-1)
-
 
     def clicked(self):
         self.res = self.txt.get()
@@ -89,6 +90,7 @@ class ui():
             sys.exit(-1)
         else:
             print("works")
+
     def checkTime(self,proc):
         time = int(datetime.datetime.now().strftime("%H"))
         print(time)
@@ -103,10 +105,11 @@ class ui():
 
     def open_popup(self):
         top = Toplevel(self.window)
+        top.focus_force()
         top.geometry("750x250")
         top.title("Child Window")
         Label(top, text="Hello World!", font=('Mistral 18 bold')).place(x=150, y=80)
-        top.focus()
+
 
 def main():
     proc=postProc()
