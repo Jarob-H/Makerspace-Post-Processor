@@ -57,10 +57,6 @@ class ui():
 
         self.txt.place(relx = .5, rely =.35,anchor=CENTER,height=50, width=400)
 
-        btn = Button(self.window, text="ENTER", command=self.clicked)
-
-        canvas = tk.Canvas(self.window, width=300, height=300)
-
         login_btn = PhotoImage(file="rounded_button.png")
 
         # Create button and image
@@ -69,11 +65,17 @@ class ui():
 
         img.place(relx = 0.5, rely = 0.5,anchor=CENTER)
 
+        exit_button = Button(self.window, text="Exit", command=self.on_closing)
+
+        exit_button.place(relx = .5, rely =.7,anchor=CENTER,height=50, width=200)
+
         self.window.protocol("WM_DELETE_WINDOW", self.on_closing)
 
         self.window.mainloop()
 
+
     def on_closing(self):#iff the user exits I want to send -1 code so the gcode is cancled
+        self.window.destroy()
         sys.exit(-1)
 
     def clicked(self):
@@ -104,10 +106,25 @@ class ui():
     def open_popup(self,msg):
         top = Toplevel(self.window)
         top.focus_force()
-        top.geometry("900x250")
+        top.geometry("2000x2000")
         top.configure(bg="#330000")
         top.title("Override")
-        Label(top, text="Your Print falls outside of normal parameters. " + msg).place(x=150, y=80)
+
+        Label(top, text="Your Print falls outside of normal parameters. " + msg,fg="gold",bg="#330000").place(x=150, y=10)
+
+        lbl = Label(top, text="Password:", bg="#330000", font=(25), fg="#FFD700")
+
+        lbl.place(relx=.4, rely=.3, anchor=CENTER)
+
+        txt = Entry(top, show='*', font=(15))
+
+        txt.place(relx=.5, rely=.35, anchor=CENTER, height=50, width=400)
+
+        ###
+
+        login_btn = PhotoImage(file="rounded_button.png")
+        img = Button(top, image=login_btn,borderwidth=0, bg="#330000", text="ENTER")
+        img.place(relx=0.5, rely=0.5, anchor=CENTER)
 
 
 
